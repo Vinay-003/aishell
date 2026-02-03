@@ -930,47 +930,6 @@ def execute_command(cmd):
     except Exception as e:
         print(f"Error executing command: {e}")
 
-def agentic_edit_flow(target_path):
-    """Edit a file based on a user-provided snippet and instructions."""
-    if not os.path.exists(target_path):
-        print(f"❌ File not found: {target_path}")
-        return
-    print("Paste the code snippet to change. End with a single line: END")
-    snippet_lines = []
-    while True:
-        try:
-            line = input()
-        except (EOFError, KeyboardInterrupt):
-            print("\nReturning to main prompt...")
-            return
-        if line.strip() == "END":
-            break
-        snippet_lines.append(line)
-    snippet = "\n".join(snippet_lines).strip()
-    if not snippet:
-        print("❌ No snippet provided.")
-        return
-    instructions = prompt_user_text("Describe the changes you want: ")
-    if instructions is None or not instructions.strip():
-        print("❌ No instructions provided.")
-        return
-    with open(target_path, "r") as f:
-        original = f.read()
-    response = call_ai_api(
-        "You are editing a file. Apply the requested changes to the provided snippet in context. "
-        "Return ONLY the full updated file content, no markdown, no explanations.\n\n"
-        f"File path: {target_path}\n"
-        f"Instructions: {instructions}\n\n"
-        f"Snippet to change:\n{snippet}\n\n"
-        f"Current file content:\n{original}"
-    )
-    updated = response.strip() if response else ""
-    if not updated:
-        print("⚠️  No updated content returned.")
-        return
-    with open(target_path, "w") as f:
-        f.write(updated)
-    print(f"✅ Updated {target_path}")
 def prompt_plain_input(prompt_text=""):
     """PromptToolkit input without AI suggestions (supports arrows)."""
     try:
@@ -1359,12 +1318,6 @@ def main():
             else:
                 if is_auto_code_request(user_input):
                     auto_code_task(user_input)
-                elif user_input.startswith("edit "):
-                    target = user_input[5:].strip()
-                    if not target:
-                        print("Usage: edit <path>")
-                    else:
-                        agentic_edit_flow(target)
                 elif check_command_safety(user_input):
                     execute_command(user_input)
             

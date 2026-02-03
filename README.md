@@ -21,8 +21,6 @@ AI-enhanced shell with fast suggestions, safer execution, and task-oriented mode
 - `%%%` Interactive coding mode
   - Generates code into files, auto-saves, and keeps output clean (no code printed to the terminal).
   - Supports new directory creation when requested in the task.
-- `edit <path>` Agentic file edit
-  - Paste a snippet, describe changes, and it updates the file in place.
 
 ## Notes
 
