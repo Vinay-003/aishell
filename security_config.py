@@ -573,7 +573,7 @@ SEVERITY_INFO = {
 # ============================================================================
 
 SAFE_COMMANDS = {
-    "ls", "ll", "la", "pwd", "cd", "echo", "cat", "less", "more", "head", "tail",
+    "ls", "ll", "la", "pwd", "cd", "cat", "less", "more", "head", "tail",
     "grep", "find", "which", "whereis", "whoami", "id", "date", "cal", "uptime",
     "df", "du", "free", "top", "htop", "ps", "pstree", "man", "info", "help",
     "history", "alias", "type", "file", "stat", "wc", "sort", "uniq", "diff",

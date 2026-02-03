@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+
+# Cliffy shell entrypoint. Use as a login shell to make `cd` persist
+# because Cliffy becomes the session shell.
+
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+
+# Make sure we don't accidentally return to an old shell.
+exec python3 "$SCRIPT_DIR/ai_shell_integration.py"
