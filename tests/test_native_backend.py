@@ -71,6 +71,7 @@ def test_launcher_owns_tty_and_cleans_private_rc(monkeypatch, tmp_path):
     assert argv[:3] == ['bash', '--noprofile', '--rcfile']
     assert 'USER_RC_LOADED' not in content  # sourced, not copied
     assert 'source ' in content and 'READLINE_LINE' in content
+    assert 'BASH_VERSINFO[0]' in content and 'exit 1' in content
     assert mode == 0o600
     assert not cliffy_native.Path(argv[-2]).exists()
 
@@ -90,3 +91,8 @@ def test_draft_missing_provider_and_invalid_task(monkeypatch, capsys):
     assert cliffy_native.draft('list files') == 1
     captured = capsys.readouterr()
     assert captured.out == '' and 'SECRET' not in captured.err
+
+
+@pytest.mark.parametrize('answer', ['x' * 8193, '\tprintf ok', 'printf ok\x1f'])
+def test_draft_rejects_oversized_or_edge_control_output(answer):
+    assert cliffy_native._command(answer) is None
