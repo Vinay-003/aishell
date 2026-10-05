@@ -28,3 +28,6 @@ coverage.xml
 .omnirush/
 PROJECT_PITCH.md
 vinay.tex
+site/node_modules/
+site/test-results/
+site/playwright-report/

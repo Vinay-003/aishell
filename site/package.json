@@ -1,0 +1,13 @@
+{
+  "name": "cliffy-product-site",
+  "private": true,
+  "scripts": {
+    "test": "playwright test",
+    "preview": "python3 -m http.server 4173 --bind 127.0.0.1",
+    "audit": "lighthouse http://127.0.0.1:4173 --chrome-flags='--headless --no-sandbox' --output=json --output-path=/tmp/opencode/cliffy-site-lighthouse.json --quiet"
+  },
+  "devDependencies": {
+    "@playwright/test": "1.63.0",
+    "lighthouse": "13.5.0"
+  }
+}
