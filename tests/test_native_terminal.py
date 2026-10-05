@@ -131,10 +131,10 @@ def test_ctrl_g_inserts_local_api_draft_without_executing(tmp_path):
 
     server = ThreadingHTTPServer(('127.0.0.1', 0), Handler)
     thread = threading.Thread(target=server.serve_forever, daemon=True)
-    thread.start()
     terminal = Terminal(tmp_path, {'CLIFFY_PROVIDER': 'custom', 'CLIFFY_MODEL': 'fixture',
                                    'CUSTOM_API_KEY': 'synthetic-local-key', 'CLIFFY_NO_AI': '0',
                                    'CLIFFY_BASE_URL': f'http://127.0.0.1:{server.server_port}/v1'})
+    thread.start()
     try:
         terminal.send('create a marker file')
         terminal.send(b'\x07')

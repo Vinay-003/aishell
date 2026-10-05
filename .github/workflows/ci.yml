@@ -17,6 +17,7 @@ jobs:
           python-version: ${{ matrix.python-version }}
       - run: python -m pip install --upgrade pip
       - run: python -m pip install '.[dev]'
-      - run: python -m pytest --cov=ai_shell_integration --cov=cliffy_providers --cov=cliffy_suggestions --cov=cliffy_cli --cov-fail-under=80 -q
+      - run: python -m pytest --cov=ai_shell_integration --cov=cliffy_providers --cov=cliffy_suggestions --cov=cliffy_cli --cov=cliffy_native --cov-fail-under=80 -q
+      - run: bash -n cliffy cliffy.sh cliffy_shell/bash.sh
       - run: python -m build
       - run: python -m twine check dist/*

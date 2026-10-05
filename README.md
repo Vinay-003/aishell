@@ -1,13 +1,17 @@
 # Cliffy — AI-assisted interactive shell
 
-Cliffy is a Python interactive shell assistant with optional AI suggestions,
+Cliffy adds explicit AI command drafting to an opt-in **native Bash session**,
+alongside a Python interactive assistant with optional AI suggestions,
 natural-language command drafting, guided multi-step commands, and code
-generation. It is **not** a sandbox or a full POSIX login shell. Review commands
+generation. The native mode preserves Bash state; the Python assistant is
+**not** a full POSIX login shell. Neither mode is a sandbox. Review commands
 and generated files before accepting them.
 
 ## Install (Python 3.10+)
 
-This project is **not published**. From a trusted checkout, use either:
+Python packages are **not published to PyPI**. Download the
+[source ZIP](https://github.com/Vinay-003/aishell/archive/refs/heads/master.zip)
+or clone the repository, then install from the extracted project directory:
 
 ```bash
 python3 -m pip install --user pipx
@@ -82,7 +86,7 @@ list dollar rates: confirm your account's entitlement. Sources:
 [limits](https://apinex.bond/developers/errors), and
 [public catalog](https://apinex.bond/api/public/models).
 
-Live tests with the chat-supplied APInex key passed the CLI connectivity probe,
+Controlled APInex live tests passed the CLI connectivity probe,
 fresh/cached terminal suggestions, `%`, `%%`, interactive code generation, and
 unique-file auto-code using **free GLM-5.3 Flash**. This is the new APInex default;
 existing Groq settings and explicit `CLIFFY_MODEL` choices are unchanged.
@@ -113,7 +117,51 @@ cliffy
 `.env.example` to a private `.env`; it is loaded only when the runtime starts,
 not for `--help` or `--version`. Protect it from sharing and backups.
 
-## Use
+## Recommended: native Bash session
+
+After exporting your own provider key and model, open a separate terminal tab:
+
+```bash
+cliffy --shell bash
+```
+
+Requires **Bash 4+** on Linux, macOS with a newer Bash installed, or WSL.
+The launcher starts an independent interactive Bash, loads `~/.bashrc`, and
+enables Cliffy for that child only. It does not edit profiles or switch your
+normal shell. In Bash, type `show current directory` **without pressing Enter**,
+then press **Ctrl+G**. Review the resulting `pwd`, edit if needed, and press Enter
+to execute it. Cancel with Ctrl+C. AI output is never executed automatically.
+
+Every ordinary command is interpreted by real Bash: `cd x && export MODE=dev`,
+`source .venv/bin/activate`, aliases, functions, `umask`, and `jobs`/`fg`/`bg`
+persist with native semantics. `exit` returns to your parent shell without
+copying the child's directory or environment back. Files remain shared and
+commands retain your user account's permissions. This is not folder isolation.
+
+No AI request is made until you press Ctrl+G. The shortcut makes one synchronous
+request; Ctrl+C cancels the helper. Empty input, invalid responses, or provider
+errors retain the original line. The opt-in binding replaces Ctrl+G in Bash's
+emacs and vi-insertion maps; other keys and native command syntax are unchanged.
+Do not press Enter on your natural-language request if drafting fails.
+
+For optional activation in an **existing Bash session** (affects that session):
+
+```bash
+source <(cliffy --shell-init bash)
+```
+
+For a printed draft without execution: `cliffy --draft 'show current directory'`.
+Native drafting uses exported environment configuration, not project `.env`
+loading. Never put an API key in a draft or command argument. The explicit task
+and current directory are sent to the configured provider, not the whole shell
+environment. Each native draft is a separate process: rate-spacing state is not
+shared across invocations or terminal tabs, so respect your provider's quota.
+There is no paid-model fallback or automatic retry.
+
+Native-mode inline ghost text, Zsh integration, and native Windows are not
+implemented. Use the existing assistant below for ghost text and coding modes.
+
+## Existing interactive assistant
 
 Launch `cliffy`, then enter ordinary shell commands. Prefix a natural-language
 request with `%` to draft a single editable command, `%%` for a multi-step
@@ -143,7 +191,8 @@ to persist it. `alias`, `source`, and other shell state do not persist between
 subprocesses. Linux/macOS/WSL with Bash are the intended environments; native
 Windows and a full login-shell replacement are not verified.
 
-CLI options include `--help`, `--version`, `--check-api`, `--provider`,
+CLI options include `--help`, `--version`, `--shell bash`, `--shell-init bash`,
+`--draft TASK`, `--check-api`, `--provider`,
 `--model`, `--base-url`, `--timeout`, `--no-startup-check`, and `--no-ai`.
 `--check-api` deliberately performs a live provider request; `--no-ai`
 disables provider calls and a combined `--no-ai --check-api` returns failure
@@ -186,14 +235,14 @@ your quota to hide latency. Ordinary commands still work with `cliffy --no-ai`.
 ```bash
 python -m pip install -e '.[dev]'
 python -m pytest -q
-python -m pytest --cov=ai_shell_integration --cov=cliffy_providers --cov=cliffy_suggestions --cov=cliffy_cli --cov-fail-under=80
+python -m pytest --cov=ai_shell_integration --cov=cliffy_providers --cov=cliffy_suggestions --cov=cliffy_cli --cov=cliffy_native --cov-fail-under=80
 python -m build
 python -m twine check dist/*
 ```
 
 Tests exercise provider contracts with fixtures/mocks; they do **not** establish
 that official provider endpoints currently work live or are free. Before any
-release, choose and add an actual license, verify the proposed `cliffy-ai`
+registry release, verify the proposed `cliffy-ai`
 distribution name and owner account, review sdist/wheel contents for secrets,
 and explicitly approve TestPyPI then PyPI upload. No upload or publication has
 been performed. For a manually approved release only, use `python -m twine
@@ -204,3 +253,7 @@ See `plan.md` for the audit, fixes, measured verification, and the remaining
 live-provider/publication checks. The previous interview-oriented README is
 preserved in `docs/INTERVIEW_GUIDE.md` as historical material; its old test and
 security claims are not evidence for this release.
+
+Licensed under the [MIT License](LICENSE). GitHub source downloads do not require
+a Cliffy account; provider access, API keys, model choice, and any inference
+charges remain the user's responsibility.

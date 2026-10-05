@@ -1,8 +1,10 @@
 include README.md
+include LICENSE
 include plan.md
 include .env.example
 include cliffy cliffy.sh
-include cliffy_cli.py ai_shell_integration.py cliffy_providers.py cliffy_suggestions.py security_config.py pattern_reference.py
+include cliffy_cli.py cliffy_native.py ai_shell_integration.py cliffy_providers.py cliffy_suggestions.py security_config.py pattern_reference.py
+recursive-include cliffy_shell *.sh
 recursive-include tests *.py
 prune docs
 exclude .env

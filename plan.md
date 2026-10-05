@@ -26,7 +26,7 @@ Ship an installable Python CLI with the existing shell/AI modes, documented mult
 7. Build and install the wheel in a clean venv outside this repository; inspect archives for accidental private files. Record exact commands, measured results, and remaining gaps below.
 
 ## Release decisions still needed
-- Public registry/package-name availability, owner account, and license choice must be confirmed before upload. Local build does not mean publication.
+- Public registry/package-name availability and owner account must be confirmed before upload. MIT was selected for the repository; local build does not mean registry publication.
 - Live official Anthropic/OpenAI/Gemini checks require those providers' credentials; use mocked contract tests rather than bill an unapproved model.
 
 ## Implemented fixes
@@ -74,7 +74,7 @@ One simulated 40ms fetch with the default 200ms debounce measured **240.391ms fr
 - A direct public catalog request returned HTTP 200. `free/deepseek-v4.1-flash` is present with provider `Free`, `allowFree=true`, health `live`. The current pricing UI renders that combination as **free**, consistent with the supplied screenshot; other `free/` entries can be subscription-only.
 - Catalog/docs also contain dollar rates for those IDs, so a `free/` ID is not proof of zero billing for every account. No paid model, paid fallback or subscription action was used.
 - Docs specify **5 RPM per IP** and standard FIFO queue for the free tier: https://apinex.bond/developers/errors. APInex configuration now defaults to **12.1s between dispatches**, shared across all features, and handles Retry-After without automatic retries.
-- **The chat-supplied APInex key has now been used for authenticated live tests.** It was retrieved only from this authorized conversation into process memory; it was not printed, saved, placed in shell command arguments, or added to the repository. Existing private Groq configuration remains unchanged and its credential was not forwarded elsewhere.
+- Authenticated live tests used authorized credentials held in process memory, never saved in repository files or build artifacts. Existing local provider configuration was left unchanged.
 - Authenticated `/v1/models` returned HTTP 200. A DeepSeek Flash connectivity request succeeded in **1.833s**, but repeated short-completion tests intermittently returned HTTP 200 with `finish_reason=length` and no usable content, even with 1024 tokens. A documented DeepSeek thinking-disable parameter was also probed through APInex; it did not resolve that gateway behavior and was not added to production.
 - **All seven primary live flows passed using `free/glm-5.3-flash`**, whose current catalog entry is `Free`, `allowFree=true`, health `live`. Only free-priced model routes were tested; no paid fallback was attempted. GLM Flash is now the APInex default; explicit model overrides and existing Groq configuration are preserved.
 
@@ -103,6 +103,19 @@ One simulated 40ms fetch with the default 200ms debounce measured **240.391ms fr
 ## Remaining release gates
 - [x] Verify authenticated APInex free-model inference, actual suggestion/cache latency and primary command/code flows using the supplied key without persisting it.
 - [ ] Validate official provider endpoints with their own credentials if needed; their contract mocks do not establish live availability.
-- [ ] Choose the package license and confirm registry/package-name availability and owner account.
-- [ ] Upload to TestPyPI/PyPI only after those decisions and explicit release review. **No public upload, commit, or push was performed.**
-- [ ] Native Windows and full Bash state persistence are not supported/verified; CLI commands are still unsandboxed and safety checks are heuristics, not a security boundary.
+- [x] Use the MIT License for the public source repository.
+- [ ] Confirm registry/package-name availability and owner account.
+- [ ] Upload to TestPyPI/PyPI only after those decisions and explicit release review. No registry upload has been performed.
+- [ ] Native Windows and Zsh integration are not supported/verified; commands remain unsandboxed and safety checks are heuristics, not a security boundary.
+
+## Native Bash integration (2026-10-06)
+- Recommended opt-in launch: `cliffy --shell bash` creates an independent interactive Bash 4+ session, reading the user's Bash rc file without modifying it.
+- Ctrl+G translates the current request into an editable command. Bash owns execution and state; Cliffy never evaluates or executes returned AI text automatically.
+- `--draft TASK` prints a single bounded command; `--shell-init bash` prints trusted integration code for deliberate activation in an existing session.
+- Drafts use exported provider configuration, not project dotenv loading. The provider sees only the explicit task and cwd. Inference can incur costs; there is no automatic retry or paid-model fallback.
+- Separate helper processes do not share rate-spacing state. Native ghost text and Zsh are deferred; the existing assistant retains its existing feature set and state limitations.
+- Integration review fixed output framing and eliminated API-key serialization into process arguments. Real PTY tests exposed ignored-SIGINT inheritance; spawn order now permits foreground Ctrl+C.
+- PTY checks cover compound cwd/export persistence, sourcing/activation, functions, aliases, umask, background jobs, suspend/resume/foreground interrupt, and actual Ctrl+G insertion through a localhost provider without execution until Enter.
+- Final source checks: **231 tests + 33 subtests passed**, **86.33% aggregate runtime coverage**; native backend 89%. Bash syntax, Python compilation, dependency consistency, diff whitespace, build and Twine metadata validation passed.
+- Clean installed-wheel check outside the checkout: **33 selected tests + 33 subtests passed** (native backend, providers, suggestions), version and bundled shell-init syntax passed. Both distribution archives contain the Bash resource and MIT license and passed a private-file/key-pattern exclusion scan.
+- No new live provider credential requests were made for native-shell verification; its API-backed terminal flow used localhost fixtures. Native Windows/macOS runtime and remote CI results are not claimed.

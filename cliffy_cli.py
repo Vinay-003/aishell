@@ -17,7 +17,11 @@ _PROVIDERS = ("groq", "openai", "anthropic", "gemini", "custom", "apinex")
 def parser() -> argparse.ArgumentParser:
     p = argparse.ArgumentParser(prog="cliffy", description="AI-assisted interactive shell")
     p.add_argument("--version", action="version", version=f"cliffy {__version__}")
-    p.add_argument("--check-api", action="store_true", help="check configured provider connectivity")
+    actions = p.add_mutually_exclusive_group()
+    actions.add_argument("--check-api", action="store_true", help="check configured provider connectivity")
+    actions.add_argument("--shell", choices=("bash",), help="launch a native interactive shell")
+    actions.add_argument("--shell-init", choices=("bash",), help="print native shell integration")
+    actions.add_argument("--draft", metavar="TASK", help="draft one command without executing it")
     p.add_argument("--no-ai", action="store_true", help="disable AI requests for this session")
     p.add_argument("--no-startup-check", action="store_true", help="skip startup connectivity check")
     p.add_argument("--provider", choices=_PROVIDERS, default=None, help="provider (also configurable by environment)")
@@ -49,6 +53,16 @@ def main(argv: Sequence[str] | None = None) -> int:
         value = getattr(args, attr)
         if value is not None:
             os.environ[key] = str(value)
+    if args.shell_init:
+        from cliffy_native import shell_init
+        print(shell_init(), end='')
+        return 0
+    if args.shell:
+        from cliffy_native import launch_bash
+        return launch_bash()
+    if args.draft is not None:
+        from cliffy_native import draft
+        return draft(args.draft)
     if args.check_api:
         if args.no_ai or os.environ.get("CLIFFY_NO_AI", "").strip().lower() in {"1", "true", "yes", "on"}:
             print("API check unavailable: AI is disabled.", file=sys.stderr)

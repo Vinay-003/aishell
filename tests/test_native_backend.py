@@ -93,6 +93,7 @@ def test_draft_missing_provider_and_invalid_task(monkeypatch, capsys):
     assert captured.out == '' and 'SECRET' not in captured.err
 
 
-@pytest.mark.parametrize('answer', ['x' * 8193, '\tprintf ok', 'printf ok\x1f'])
+@pytest.mark.parametrize('answer', ['x' * 8193, '\tprintf ok', 'printf ok\x1f'],
+                         ids=['oversized', 'leading-tab', 'trailing-control'])
 def test_draft_rejects_oversized_or_edge_control_output(answer):
     assert cliffy_native._command(answer) is None
