@@ -6,6 +6,7 @@ include cliffy cliffy.sh
 include cliffy_cli.py cliffy_native.py ai_shell_integration.py cliffy_providers.py cliffy_suggestions.py security_config.py pattern_reference.py
 recursive-include cliffy_shell *.sh
 recursive-include tests *.py
+exclude tests/test_site.py
 prune docs
 exclude .env
 global-exclude .env.local .env.production .env.development

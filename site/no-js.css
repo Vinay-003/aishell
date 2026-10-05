@@ -1,0 +1,8 @@
+/* Progressive fallback: navigation and instructions remain usable without JS. */
+[data-menu-toggle], [data-copy], [data-demo] { display: none; }
+.static-steps { padding-left: 1.5rem; line-height: 1.8; }
+@media (max-width: 800px) {
+  .header-inner { flex-wrap: wrap; padding-block: 20px; }
+  .site-nav { display: flex; position: static; width: 100%; padding: 0;
+    border: 0; box-shadow: none; }
+}

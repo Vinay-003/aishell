@@ -1,0 +1,16 @@
+# Cliffy
+
+> An AI-assisted CLI with opt-in native Bash command drafting. Every user supplies their own provider, model, and API key.
+
+Cliffy is not a sandbox. In native mode, Ctrl+G places a draft in the editable
+Bash buffer; only the user executes it by pressing Enter after review.
+The Python assistant is a separate mode with inline suggestions and coding tools.
+The website is static, never collects API keys, and does not run inference.
+The Python package is not published to PyPI; download and verify the local archives.
+
+## Documentation
+
+- [Overview](index.html): Product workflow and downloadable packages.
+- [Field manual](docs.html): Installation, provider setup, usage, privacy, and limitations.
+- [Checksums](downloads/SHA256SUMS): SHA256 hashes for the wheel and source archive.
+- [Repository](https://github.com/Vinay-003/aishell): Source code and MIT license.

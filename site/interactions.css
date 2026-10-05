@@ -1,0 +1,12 @@
+/* Intrinsic code widths must scroll inside their panel, not widen the grid. */
+.download-grid > *, .demo-layout > *, .principle-grid > * { min-width: 0; }
+.code-block pre code { white-space: pre; }
+.site-nav a, .brand, .text-link, .footer-inner a { min-height: 44px; display: inline-flex; align-items: center; }
+.site-footer .manual-footer { padding-block: 35px; }
+.site-footer .manual-footer a { min-height: 44px; display: inline-flex; align-items: center; }
+.walkthrough .steps { position: sticky; top: 32px; }
+.entered { animation: field-entry .55s ease-out both; }
+.mode-grid article:nth-child(2).entered { animation-delay: .08s; }
+@keyframes field-entry { from { opacity: .5; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
+@media (max-width: 800px) { .walkthrough .steps { position: static; } }
+@media (prefers-reduced-motion: reduce) { .entered { animation: none; } }

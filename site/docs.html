@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'none'">
+  <meta name="theme-color" content="#f5f3ec">
+  <meta name="description" content="The Cliffy field manual: install, bring your own AI provider key, draft commands in native Bash, and understand the limits.">
+  <title>Field manual — Cliffy</title>
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="docs.css">
+  <link rel="stylesheet" href="interactions.css">
+  <noscript><link rel="stylesheet" href="no-js.css"></noscript>
+  <script src="main.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="brand" href="index.html" aria-label="Cliffy home">cliffy<span aria-hidden="true">_</span></a>
+      <button class="menu-toggle" type="button" data-menu-toggle aria-controls="site-navigation" aria-expanded="false">Menu</button>
+      <nav class="site-nav" id="site-navigation" aria-label="Main navigation" data-nav>
+        <a href="index.html">Overview</a>
+        <a href="docs.html" aria-current="page">Field manual</a>
+        <a href="https://github.com/Vinay-003/aishell">GitHub ↗</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main" class="container manual" tabindex="-1">
+    <div class="manual-lead">
+      <p class="eyebrow">Cliffy / Field manual / v0.1.0</p>
+      <h1>Make the shell yours.<br><em>Keep the final say.</em></h1>
+      <p class="manual-deck">A practical guide to installation, provider setup, and deliberate command drafting. Cliffy proposes; you review and execute.</p>
+      <div class="manual-meta"><span>Python 3.10+</span><span>Bash 4+ for native mode</span><span>Linux · macOS with newer Bash · WSL</span></div>
+    </div>
+
+    <div class="manual-grid">
+      <aside class="contents" aria-label="On this page">
+        <p class="contents-label">Contents</p>
+        <nav aria-label="Manual chapters">
+          <a href="#install"><span>01</span> Install</a>
+          <a href="#providers"><span>02</span> Bring a provider</a>
+          <a href="#native"><span>03</span> Native Bash</a>
+          <a href="#assistant"><span>04</span> Interactive assistant</a>
+          <a href="#privacy"><span>05</span> Privacy &amp; limits</a>
+          <a href="#troubleshooting"><span>06</span> Troubleshooting</a>
+        </nav>
+        <p class="contents-note">No account or API key is collected by this website. You configure Cliffy locally.</p>
+      </aside>
+
+      <div class="chapters">
+        <section class="chapter" id="install" aria-labelledby="install-title">
+          <div class="chapter-heading"><span class="chapter-no">01 / Start here</span><h2 id="install-title">Install the package.</h2></div>
+          <p>Download the <a href="downloads/cliffy_ai-0.1.0-py3-none-any.whl" download>wheel</a> (or <a href="downloads/cliffy_ai-0.1.0.tar.gz" download>source archive</a>) and optionally verify it against <a href="downloads/SHA256SUMS">SHA256SUMS</a>. Cliffy requires Python 3.10 or newer. It is <strong>not published on PyPI</strong>; install your downloaded file, not a similarly named registry package.</p>
+          <h3>Virtual environment</h3>
+          <p>Run this in the folder containing your downloaded wheel. Activate the environment again in each new terminal where you use Cliffy.</p>
+          <div class="code-block"><div class="code-label"><span>Terminal / Bash</span><button class="copy-button" type="button" data-copy="install-venv" aria-label="Copy virtual environment commands">Copy</button></div><pre id="install-venv"><code>python3 -m venv .venv
+. .venv/bin/activate
+python -m pip install ./cliffy_ai-0.1.0-py3-none-any.whl
+cliffy --version</code></pre></div>
+          <p>Prefer isolated global commands? If <code>pipx</code> is installed, use <code>pipx install ./cliffy_ai-0.1.0-py3-none-any.whl</code>. You can also <a href="https://github.com/Vinay-003/aishell">inspect the source on GitHub</a> and install from an extracted source directory.</p>
+        </section>
+
+        <section class="chapter" id="providers" aria-labelledby="providers-title">
+          <div class="chapter-heading"><span class="chapter-no">02 / Your account</span><h2 id="providers-title">Bring your own provider.</h2></div>
+          <p>Every user needs their <strong>own provider account and API key</strong>. Select a provider and model supported by your account; you are responsible for any provider charges. Default models and availability can change. Cliffy has no hosted model and this site never asks for, receives, or stores your key.</p>
+          <div class="table-scroll"><table><caption>Provider environment variables and current default models</caption><thead><tr><th scope="col">CLIFFY_PROVIDER</th><th scope="col">Key variable</th><th scope="col">Default CLIFFY_MODEL</th></tr></thead><tbody>
+            <tr><th scope="row"><code>groq</code></th><td><code>GROQ_API_KEY</code></td><td><code>llama-3.1-8b-instant</code></td></tr>
+            <tr><th scope="row"><code>openai</code></th><td><code>OPENAI_API_KEY</code></td><td><code>gpt-4o-mini</code></td></tr>
+            <tr><th scope="row"><code>anthropic</code></th><td><code>ANTHROPIC_API_KEY</code></td><td><code>claude-sonnet-4-5</code></td></tr>
+            <tr><th scope="row"><code>gemini</code></th><td><code>GEMINI_API_KEY</code></td><td><code>gemini-2.5-flash</code></td></tr>
+            <tr><th scope="row"><code>apinex</code></th><td><code>APINEX_API_KEY</code></td><td><code>free/glm-5.3-flash</code></td></tr>
+            <tr><th scope="row"><code>custom</code></th><td><code>CUSTOM_API_KEY</code></td><td>Set model and base URL yourself</td></tr>
+          </tbody></table></div>
+          <h3>Set your key without printing it</h3>
+          <p>In Bash, the hidden prompt below keeps the value out of your typed command history and suppresses terminal echo. Obtain the key from your provider, not from Cliffy. These exports last for this terminal session; native drafts use <strong>exported variables, not a project <code>.env</code> file</strong>.</p>
+          <div class="code-block"><div class="code-label"><span>Example / Groq</span><button class="copy-button" type="button" data-copy="provider-groq" aria-label="Copy Groq setup commands">Copy</button></div><pre id="provider-groq"><code>export CLIFFY_PROVIDER=groq
+export CLIFFY_MODEL=llama-3.1-8b-instant
+read -rs -p 'Groq API key: ' GROQ_API_KEY; echo; export GROQ_API_KEY</code></pre></div>
+          <p>For another provider, substitute its name, key variable, and an available model. <code>CLIFFY_API_KEY</code> is also supported as a generic key override. Never paste a literal key into a command, screenshot, repository, or prompt.</p>
+          <h3>Custom OpenAI-compatible endpoint</h3>
+          <p>A custom provider additionally requires an endpoint and model. Replace the example URL and model with your provider's actual values.</p>
+          <div class="code-block"><div class="code-label"><span>Example / Custom</span><button class="copy-button" type="button" data-copy="provider-custom" aria-label="Copy custom provider setup commands">Copy</button></div><pre id="provider-custom"><code>export CLIFFY_PROVIDER=custom
+export CLIFFY_BASE_URL='https://your-provider.example/v1'
+export CLIFFY_MODEL='your-model-id'
+read -rs -p 'Custom API key: ' CUSTOM_API_KEY; echo; export CUSTOM_API_KEY</code></pre></div>
+          <p><code>cliffy --check-api</code> is an <strong>optional, billable live request</strong>, not just a local configuration check. The <code>free/</code> prefix of an APInex model does not guarantee no charges: verify entitlement and terms with the provider.</p>
+        </section>
+
+        <section class="chapter" id="native" aria-labelledby="native-title">
+          <div class="chapter-heading"><span class="chapter-no">03 / Recommended</span><h2 id="native-title">Draft inside real Bash.</h2></div>
+          <p>With your provider configured, launch an independent native Bash child session. This needs <strong>Bash 4+</strong> on Linux, macOS with a newer Bash installed, or WSL. It loads <code>~/.bashrc</code>, does not edit your profiles, and leaves your normal terminal tab unchanged.</p>
+          <div class="code-block"><div class="code-label"><span>Terminal / Launch</span><button class="copy-button" type="button" data-copy="native-launch" aria-label="Copy native launch command">Copy</button></div><pre id="native-launch"><code>cliffy --shell bash</code></pre></div>
+          <ol class="steps"><li>Type a natural-language task, such as <code>show current directory</code>, <strong>without pressing Enter</strong>.</li><li>Press <kbd>Ctrl+G</kbd> to request a draft. No AI request happens before this shortcut.</li><li>Review or edit the inserted command. Press <kbd>Enter</kbd> to execute it, or <kbd>Ctrl+C</kbd> to cancel. Cliffy never executes the AI draft automatically.</li></ol>
+          <p>Ordinary commands are interpreted by Bash. Aliases, <code>source</code>, <code>export</code>, shell functions, and <code>jobs</code> behave normally in this child. <code>exit</code> returns to your parent shell; the child's working directory and environment are <strong>not handed back</strong>. Files are still shared with your user account. This is <strong>not a sandbox</strong>.</p>
+          <p>The opt-in plugin replaces <kbd>Ctrl+G</kbd> in the emacs and vi-insertion keymaps. It does not bind Enter, Tab, or Right. A failed or canceled draft retains the original request; discard or edit it rather than pressing Enter on natural-language text.</p>
+          <div class="callout"><strong>Already in Bash?</strong> <code>source &lt;(cliffy --shell-init bash)</code> activates drafting in that existing session. For a printed draft without execution, use <code>cliffy --draft 'show current directory'</code>. Neither native Zsh integration nor native inline ghost text is implemented yet.</div>
+        </section>
+
+        <section class="chapter" id="assistant" aria-labelledby="assistant-title">
+          <div class="chapter-heading"><span class="chapter-no">04 / Alternate mode</span><h2 id="assistant-title">Use the interactive assistant.</h2></div>
+          <p>Launch <code>cliffy</code> for the existing Python interactive assistant. It supports inline ghost suggestions (accept with <kbd>Tab</kbd> or <kbd>Right</kbd> at the end of the line), file completion, and reviewed AI workflows:</p>
+          <ul class="mode-list"><li><code>% &lt;task&gt;</code> drafts one editable command.</li><li><code>%% &lt;task&gt;</code> guides a multi-step task with per-step confirmation.</li><li><code>%%% &lt;task&gt;</code> opens interactive coding with filename and overwrite review.</li><li><code>ai: &lt;task&gt;</code> generates a unique code file without running it.</li></ul>
+          <p>This mode is <strong>not a full login shell</strong>. Simple <code>cd</code>, <code>export</code>, and <code>unset</code> persist inside Cliffy, but compound <code>cd x &amp;&amp; command</code> runs in a subprocess. Aliases, <code>source</code>, and other subprocess shell state do not persist. Prefer native Bash when you need actual shell state.</p>
+        </section>
+
+        <section class="chapter" id="privacy" aria-labelledby="privacy-title">
+          <div class="chapter-heading"><span class="chapter-no">05 / Read before prompting</span><h2 id="privacy-title">Know what leaves your machine.</h2></div>
+          <p>For a native draft, the explicit task and current working directory are sent to the selected provider, not your whole shell environment. In the assistant, text used for AI suggestions or generation may be sent too. A manually entered prompt can contain secrets: <strong>never put credentials or private data into AI requests</strong>.</p>
+          <p>The assistant may store commands in local <code>~/.ai_shell_history</code> and metadata/errors in <code>~/.ai_shell.log</code>; keep them private and inspect before sharing diagnostics. Your Bash history follows your own Bash configuration. Secret-detection and safety checks are heuristic, <strong>not security guarantees</strong>. Review generated commands, destinations, and files. <code>cliffy --no-ai</code> disables provider requests; <code>CLIFFY_NO_AI=1</code> also opts out of suggestions and generation.</p>
+        </section>
+
+        <section class="chapter" id="troubleshooting" aria-labelledby="troubleshooting-title">
+          <div class="chapter-heading"><span class="chapter-no">06 / When things stall</span><h2 id="troubleshooting-title">A short diagnostic desk.</h2></div>
+          <div class="faq"><h3>Why is the provider unavailable?</h3><p>Check the exported provider key, <code>CLIFFY_PROVIDER</code>, <code>CLIFFY_MODEL</code>, and custom <code>CLIFFY_BASE_URL</code> if applicable. <code>--no-ai</code> disables requests. If you choose to run <code>cliffy --check-api</code>, it sends a live request that may incur charges.</p>
+          <h3>What do HTTP 401/403, 429, or timeout mean?</h3><p>401/403 usually indicates key or account access trouble; 429 indicates a rate limit or cooldown. For slow suggestions, consider <code>CLIFFY_SUGGEST_TIMEOUT=20</code> and verify the provider endpoint and model. Do not reduce spacing below your provider quota simply to hide latency.</p>
+          <h3>Is APInex free and automatically retried?</h3><p>Check current account terms. Its documented free tier has 5 requests/minute per IP; Cliffy defaults to 12.1 seconds between APInex dispatches. Native drafts run separate helper processes, so spacing is <strong>not shared across tabs or invocations</strong>. Other apps on the same IP can still trigger 429. Cliffy does not automatically retry or switch to a paid model.</p>
+          <h3>How do I remove Cliffy?</h3><p>Exit the native child to remove that session's activation. Use <code>pipx uninstall cliffy-ai</code> for a pipx install, or <code>python -m pip uninstall cliffy-ai</code> inside the virtual environment. Activation sourced into an existing shell ends when that shell session ends.</p></div>
+          <p class="manual-end">Still stuck? Read the <a href="https://github.com/Vinay-003/aishell#readme">project README</a> for additional flags and details.</p>
+        </section>
+      </div>
+    </div>
+  </main>
+  <footer class="site-footer"><div class="container manual-footer"><span>Cliffy · A tool for thoughtful commands.</span><a href="index.html">Back to overview ↑</a><a href="https://github.com/Vinay-003/aishell">Source on GitHub ↗</a></div></footer>
+</body>
+</html>

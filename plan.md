@@ -119,3 +119,10 @@ One simulated 40ms fetch with the default 200ms debounce measured **240.391ms fr
 - Final source checks: **231 tests + 33 subtests passed**, **86.33% aggregate runtime coverage**; native backend 89%. Bash syntax, Python compilation, dependency consistency, diff whitespace, build and Twine metadata validation passed.
 - Clean installed-wheel check outside the checkout: **33 selected tests + 33 subtests passed** (native backend, providers, suggestions), version and bundled shell-init syntax passed. Both distribution archives contain the Bash resource and MIT license and passed a private-file/key-pattern exclusion scan.
 - No new live provider credential requests were made for native-shell verification; its API-backed terminal flow used localhost fixtures. Native Windows/macOS runtime and remote CI results are not claimed.
+
+## Product landing-page branch
+- Native CLI commit `90db801` was pushed to `origin/master`, with matching remote/local commit IDs confirmed after fetch.
+- `feat/cliffy-landing-page` keeps the vanilla static site separate from the CLI branch. `site/index.html` showcases both modes; `site/docs.html` documents download/install and bring-your-own-provider/key/model setup.
+- Download links serve scanned local wheel/source artifacts and checksums rather than an unpublished registry package. The site has no API-key form, analytics, external inference, frameworks, or CDN dependencies.
+- Browser checks exposed mobile grid overflow, lost command newlines, and hidden no-JS navigation; all were corrected. Final verification: 238 Python tests + 33 subtests, 13 browser checks, all requested viewport captures, and local Lighthouse scores of 100 across both pages' audited categories.
+- `site/README.md` records preview/testing/hosting instructions; `site/VERIFICATION.md` records measurements and remaining limits. Public hosting and remote CI results are not claimed.

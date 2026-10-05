@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'none'">
+  <meta name="theme-color" content="#f5f3ec">
+  <meta name="description" content="Cliffy brings an AI draft into your real Bash shell. You review the command; you decide what runs.">
+  <title>Cliffy — A little AI. A real shell.</title>
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="interactions.css">
+  <noscript><link rel="stylesheet" href="no-js.css"></noscript>
+  <script src="main.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="brand" href="index.html" aria-label="Cliffy home">cliffy<span>_</span></a>
+      <button class="menu-toggle" type="button" data-menu-toggle aria-controls="site-nav" aria-expanded="false">Menu <span aria-hidden="true">☰</span></button>
+      <nav class="site-nav" id="site-nav" data-nav aria-label="Main navigation">
+        <a href="#how-it-works">How it works</a><a href="#providers">Providers</a><a href="docs.html">Documentation</a><a class="nav-download" href="#download">Get Cliffy <span aria-hidden="true">↗</span></a>
+      </nav>
+    </div>
+  </header>
+  <main id="main" tabindex="-1">
+    <section class="hero container" aria-labelledby="hero-title">
+      <div class="hero-copy">
+        <p class="eyebrow">FIELD NOTE 001 / THE TERMINAL IS YOURS</p>
+        <h1 id="hero-title">A little AI.<br><em>A real shell.</em></h1>
+        <p class="hero-lede">Ask in plain language. Get a command drafted into your Bash line. Read it, edit it, and press Enter only when <strong>you</strong> are ready.</p>
+        <div class="hero-actions"><a class="button" href="#download">Download Cliffy <span aria-hidden="true">↗</span></a><a class="text-link" href="docs.html">Read the field guide <span aria-hidden="true">→</span></a></div>
+        <p class="hero-footnote">Opt-in native mode · Bash 4+ · Bring your own provider key</p>
+      </div>
+      <div class="hero-art" aria-label="Illustration of an editable AI-drafted command in a terminal">
+        <span class="art-index" aria-hidden="true">01 / 03</span>
+        <div class="art-sheet" aria-hidden="true"><span>NOTES FROM THE FIELD</span><b>Keep the<br>last word.</b><small>YOUR SHELL. YOUR CALL.</small></div>
+        <div class="terminal hero-terminal">
+          <div class="terminal-bar"><span class="terminal-dots" aria-hidden="true">● ● ●</span><span>bash — cliffy</span><span>LOCAL SESSION</span></div>
+          <div class="terminal-body"><p class="terminal-muted">$ cliffy --shell bash</p><p><span class="prompt">❯</span> find the largest files in this folder</p><p class="terminal-muted">Ctrl+G · draft into line</p><p><span class="prompt">❯</span> <span class="draft">du -ah . | sort -rh | head -20</span><span class="cursor" aria-hidden="true"></span></p><p class="terminal-note">↳ editable buffer · nothing executed yet</p></div>
+        </div>
+        <span class="art-caption">FIG. 01 — THE DRAFT IS NOT THE DECISION.</span>
+      </div>
+    </section>
+
+    <section class="principle" id="how-it-works" aria-labelledby="principle-title">
+      <div class="container principle-grid">
+        <div><p class="eyebrow">THE OPERATING PRINCIPLE</p><h2 id="principle-title">The assistant proposes.<br><em>You decide.</em></h2></div>
+        <div class="principle-copy"><p>Native mode is an opt-in Bash session, not a pretend terminal. Your aliases, functions, virtualenvs, job control, and sourced configuration still belong to your shell.</p><p>Cliffy puts a draft in your editable command buffer with <kbd>Ctrl+G</kbd>. Review or change it before Enter. Cliffy does not execute that draft for you.</p><a class="text-link" href="docs.html#native">Understand native mode <span aria-hidden="true">→</span></a></div>
+      </div>
+    </section>
+
+    <section class="walkthrough container" aria-labelledby="walk-title">
+      <div class="section-heading"><p class="eyebrow">A THREE-STEP FIELD EXERCISE</p><h2 id="walk-title">From thought to command.<br><em>Without surrendering control.</em></h2></div>
+      <div class="demo-layout">
+        <div class="steps" role="group" aria-label="Illustrative terminal examples">
+          <noscript><ol class="static-steps"><li>Ask: describe the job.</li><li>Draft: Ctrl+G brings a command to your Bash line.</li><li>Decide: review, edit, or discard before Enter.</li></ol></noscript>
+          <button type="button" class="demo-step is-active" data-demo="0" aria-pressed="true"><span>01 / ASK</span><strong>Describe the job</strong><small>Use ordinary words instead of remembering flags.</small></button>
+          <button type="button" class="demo-step" data-demo="1" aria-pressed="false"><span>02 / DRAFT</span><strong>Bring it to the line</strong><small>Ctrl+G inserts a suggestion, not a side effect.</small></button>
+          <button type="button" class="demo-step" data-demo="2" aria-pressed="false"><span>03 / DECIDE</span><strong>Make it yours</strong><small>Edit, discard, or press Enter yourself.</small></button>
+        </div>
+        <div class="demo-display"><div class="terminal"><div class="terminal-bar"><span class="terminal-dots" aria-hidden="true">● ● ●</span><span>illustrative session</span><span>NO LIVE AI</span></div><div class="terminal-body" aria-live="polite" aria-atomic="true"><p id="demo-label" class="terminal-muted">01 / ASK — plain language</p><p id="demo-command"><span class="prompt">❯</span> show me the five largest folders here</p><p id="demo-result" class="terminal-note">Your request stays in the session until you ask for a draft.</p></div></div><p class="demo-disclaimer">Illustrative example only. These controls change the example shown here; they do not run commands or contact an AI provider.</p></div>
+      </div>
+    </section>
+
+    <section class="modes" aria-labelledby="modes-title"><div class="container"><div class="section-heading"><p class="eyebrow">TWO WAYS INTO THE WORK</p><h2 id="modes-title">Your workflow, not ours.</h2></div><div class="mode-grid"><article><span class="mode-number">01</span><h3>Real Bash, with a second opinion.</h3><p>Launch <code>cliffy --shell bash</code> when you want a native Bash session. This mode is opt-in, keeps its own state, and shares your files with the rest of your system. It is <strong>not a sandbox</strong> and does not edit your global shell profile.</p><a href="docs.html#native" class="text-link">Native-mode notes <span aria-hidden="true">→</span></a></article><article><span class="mode-number">02</span><h3>The original Cliffy assistant.</h3><p>Run <code>cliffy</code> for the Python assistant experience: ghost-text suggestions, <code>%</code> commands, <code>%%</code> guided work, and <code>%%%</code> coding mode. Its state and limits differ from native Bash; choose the mode that fits the job.</p><a href="docs.html" class="text-link">Explore the guide <span aria-hidden="true">→</span></a></article></div></div></section>
+
+    <section class="providers container" id="providers" aria-labelledby="providers-title"><div><p class="eyebrow">YOUR MODEL, YOUR KEY</p><h2 id="providers-title">No account<br><em>with us required.</em></h2><p>Pick a supported provider, bring your own API key, and choose your model. Keys are configured locally; this website has no key form, analytics, or inference requests. Provider charges and availability depend on your own account.</p><a class="text-link" href="docs.html#providers">Set up a provider <span aria-hidden="true">→</span></a></div><ul class="provider-list" aria-label="Supported providers"><li><span>01</span> Groq</li><li><span>02</span> OpenAI</li><li><span>03</span> Anthropic</li><li><span>04</span> Gemini</li><li><span>05</span> APInex</li><li><span>06</span> Custom endpoint</li></ul></section>
+
+    <section class="download" id="download" aria-labelledby="download-title"><div class="container download-grid"><div><p class="eyebrow">READY WHEN YOU ARE</p><h2 id="download-title">Take it<br><em>to your terminal.</em></h2><p>Download the local release archive, install in an isolated environment, then configure your own provider and model. Check the hashes before you install.</p></div><div class="download-panel"><span class="panel-kicker">CLIFFY / VERSION 0.1.0</span><a class="button" href="downloads/cliffy_ai-0.1.0-py3-none-any.whl" download>Download Python wheel <span aria-hidden="true">↓</span></a><a class="button button-secondary" href="downloads/cliffy_ai-0.1.0.tar.gz" download>Download source archive <span aria-hidden="true">↓</span></a><a class="checksum-link" href="downloads/SHA256SUMS" download>SHA256 checksums ↗</a><div class="install-note"><span>INSTALL EXAMPLE / ISOLATED VENV</span><div class="code-block"><code id="install-command">python3 -m venv .venv &amp;&amp; . .venv/bin/activate<br>python -m pip install cliffy_ai-0.1.0-py3-none-any.whl<br>cliffy --shell bash</code></div><button type="button" data-copy="install-command" aria-label="Copy installation commands">Copy commands</button></div><p class="panel-detail">Configure your provider first: <a href="docs.html#providers">setup guide</a>. No PyPI install claim; archives are served directly from this site.</p></div></div></section>
+  </main>
+  <footer class="site-footer"><div class="container footer-inner"><a class="brand" href="index.html">cliffy<span>_</span></a><p>Made for the curious, careful operator. MIT licensed.</p><div><a href="docs.html">Documentation</a><a href="https://github.com/Vinay-003/aishell">GitHub ↗</a></div></div></footer>
+</body>
+</html>
