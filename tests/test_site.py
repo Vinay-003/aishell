@@ -89,4 +89,10 @@ def test_pages_do_not_accept_keys_or_allow_network_inference():
         assert not any(tag in ['input', 'textarea', 'form'] for tag, _ in page.tags)
         policies = [attrs.get('content', '') for tag, attrs in page.tags
                     if tag == 'meta' and attrs.get('http-equiv') == 'Content-Security-Policy']
-        assert any("connect-src 'none'" in policy for policy in policies)
+        # Permit same-origin static discovery; never allow third-party inference.
+        assert any("connect-src 'self';" in policy for policy in policies)
+
+
+def test_static_discovery_files_are_available():
+    assert 'User-agent:' in (SITE / 'robots.txt').read_text()
+    assert (SITE / 'llms.txt').read_text().startswith('# Cliffy')
