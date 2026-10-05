@@ -21,7 +21,7 @@ for (const route of ['/', '/docs.html']) {
       expect(errors).toEqual([]);
       await mkdir(evidence, { recursive: true });
       const name = route === '/' ? 'landing' : 'docs';
-      await page.screenshot({ path: `${evidence}/${name}-${viewport.width}.png`, fullPage: true });
+      await page.screenshot({ path: `${evidence}/${name}-${viewport.width}.png`, fullPage: true, animations: 'disabled' });
     });
   }
 }
@@ -86,4 +86,21 @@ test('reduced motion disables smooth scrolling', async ({ page }) => {
     await page.goto(route);
     expect(await page.evaluate(() => getComputedStyle(document.documentElement).scrollBehavior)).toBe('auto');
   }
+});
+
+test('download buttons deliver the actual wheel and source archive', async ({ page, request }) => {
+  await page.goto('/');
+  for (const [name, filename] of [
+    ['Download Python wheel', 'cliffy_ai-0.1.0-py3-none-any.whl'],
+    ['Download source archive', 'cliffy_ai-0.1.0.tar.gz'],
+  ]) {
+    const ready = page.waitForEvent('download');
+    await page.getByRole('link', { name, exact: false }).click();
+    const download = await ready;
+    expect(download.suggestedFilename()).toBe(filename);
+    expect(await download.failure()).toBeNull();
+  }
+  const checksums = await request.get('/downloads/SHA256SUMS');
+  expect(checksums.ok()).toBe(true);
+  expect(await checksums.text()).toContain('cliffy_ai-0.1.0-py3-none-any.whl');
 });

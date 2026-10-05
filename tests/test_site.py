@@ -81,3 +81,12 @@ def test_no_cdn_or_large_javascript_budget():
         assert not any(tag == 'script' and attrs.get('src', '').startswith('http')
                        for tag, attrs in page.tags)
     assert sum(len(p.read_bytes()) for p in SITE.glob('*.js')) < 10000
+
+
+def test_pages_do_not_accept_keys_or_allow_network_inference():
+    for name in ['index.html', 'docs.html']:
+        page = Page(SITE / name)
+        assert not any(tag in ['input', 'textarea', 'form'] for tag, _ in page.tags)
+        policies = [attrs.get('content', '') for tag, attrs in page.tags
+                    if tag == 'meta' and attrs.get('http-equiv') == 'Content-Security-Policy']
+        assert any("connect-src 'none'" in policy for policy in policies)
