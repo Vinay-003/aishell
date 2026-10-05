@@ -12,11 +12,19 @@ __pycache__/*
 
 .env
 .env.*
+!.env.example
 
 test_connection.py
 test_confirmation_fix.py
 
-docs
-tests
-docs/*
-tests/*
+# Keep public docs and tracked tests; ignore only generated/private material.
+dist/
+build/
+*.egg-info/
+.pytest_cache/
+.coverage
+coverage.xml
+.opencode/
+.omnirush/
+PROJECT_PITCH.md
+vinay.tex

@@ -49,7 +49,8 @@ if __name__ == "__main__":
         if severity in ['critical', 'high', 'medium', 'low']:
             show_patterns(severity)
         else:
-            print(f"Unknown severity: {severity}")
-            print("Valid options: critical, high, medium, low")
+            print(f"Unknown severity: {severity}", file=sys.stderr)
+            print("Valid options: critical, high, medium, low", file=sys.stderr)
+            sys.exit(2)
     else:
         show_patterns()

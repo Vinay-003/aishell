@@ -1,0 +1,14 @@
+include README.md
+include plan.md
+include .env.example
+include cliffy cliffy.sh
+include cliffy_cli.py ai_shell_integration.py cliffy_providers.py cliffy_suggestions.py security_config.py pattern_reference.py
+recursive-include tests *.py
+prune docs
+exclude .env
+global-exclude .env.local .env.production .env.development
+prune .opencode
+prune .omnirush
+prune env
+exclude PROJECT_PITCH.md
+exclude vinay.tex

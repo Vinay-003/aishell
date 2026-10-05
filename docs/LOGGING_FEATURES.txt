@@ -1,0 +1,156 @@
+╔══════════════════════════════════════════════════════════════════════════════╗
+║                   🔍 CLIFFY - AI CONNECTION LOGGING                          ║
+╚══════════════════════════════════════════════════════════════════════════════╝
+
+┌──────────────────────────────────────────────────────────────────────────────┐
+│ ✨ NEW FEATURES ADDED                                                        │
+├──────────────────────────────────────────────────────────────────────────────┤
+│                                                                              │
+│ 1. 🚀 AUTOMATIC CONNECTION TEST ON STARTUP                                  │
+│    ├─ Tests AI API when Cliffy starts                                       │
+│    ├─ Shows ✅/❌ status immediately                                         │
+│    └─ Logs the connection attempt                                           │
+│                                                                              │
+│ 2. 📊 'status' COMMAND                                                       │
+│    ├─ Type 'status' anytime to check connection                             │
+│    ├─ Shows: connection state, timestamp, errors                            │
+│    ├─ Displays: log location, API endpoint, masked key                      │
+│    └─ Option to retest connection                                           │
+│                                                                              │
+│ 3. 📝 COMPREHENSIVE LOGGING                                                  │
+│    ├─ File: ~/.ai_shell.log                                                 │
+│    ├─ Timestamped entries with levels (INFO/ERROR/DEBUG)                    │
+│    ├─ Logs: connections, API calls, cache hits, errors                      │
+│    └─ Privacy-safe (no command content)                                     │
+│                                                                              │
+│ 4. ⚠️  SMART WARNINGS                                                        │
+│    ├─ Warns when using AI features if not connected                         │
+│    ├─ Appears in %, %%, %%% modes                                           │
+│    └─ Still allows attempts (graceful degradation)                          │
+│                                                                              │
+│ 5. 🚦 RATE LIMITING                                                          │
+│    ├─ Prevents API spam (0.5s minimum interval)                             │
+│    ├─ Thread-safe implementation                                            │
+│    └─ Works with caching for optimal performance                            │
+│                                                                              │
+└──────────────────────────────────────────────────────────────────────────────┘
+
+┌──────────────────────────────────────────────────────────────────────────────┐
+│ 📖 USAGE EXAMPLES                                                            │
+├──────────────────────────────────────────────────────────────────────────────┤
+│                                                                              │
+│ ► Start Cliffy and see automatic connection test:                           │
+│   $ python3 ai_shell_integration.py                                          │
+│   🔄 Testing AI API connection...                                            │
+│   ✅ AI API connected successfully!                                          │
+│   📝 Logs are saved to: ~/.ai_shell.log                                      │
+│   💡 Type 'status' to check AI connection status                             │
+│                                                                              │
+│ ► Check connection status anytime:                                          │
+│   ~/Desktop/cliffy $ status                                                  │
+│   === AI Connection Status ===                                               │
+│   ✅ Status: Connected                                                       │
+│   🕐 Last check: 2025-11-11 22:20:31                                         │
+│   📝 Log file: ~/.ai_shell.log                                               │
+│                                                                              │
+│ ► View logs:                                                                 │
+│   $ cat ~/.ai_shell.log              # View all logs                         │
+│   $ tail -n 20 ~/.ai_shell.log       # View last 20 lines                   │
+│   $ tail -f ~/.ai_shell.log          # Monitor in real-time                 │
+│   $ grep ERROR ~/.ai_shell.log       # Find errors only                     │
+│                                                                              │
+│ ► Test connection:                                                           │
+│   $ python3 test_connection.py                                               │
+│   ✅ All tests passed! AI is connected and logging works.                   │
+│                                                                              │
+└──────────────────────────────────────────────────────────────────────────────┘
+
+┌──────────────────────────────────────────────────────────────────────────────┐
+│ 📋 LOG FILE FORMAT                                                           │
+├──────────────────────────────────────────────────────────────────────────────┤
+│                                                                              │
+│ [2025-11-11 22:20:31] [INFO] Testing API connection...                      │
+│ [2025-11-11 22:20:31] [INFO] ✓ API connection successful                    │
+│ [2025-11-11 22:20:45] [DEBUG] Requesting suggestion for: git com            │
+│ [2025-11-11 22:20:46] [DEBUG] Cache hit for: git com                        │
+│ [2025-11-11 22:21:00] [ERROR] API call failed: HTTP 401                     │
+│                                                                              │
+│ Format: [TIMESTAMP] [LEVEL] MESSAGE                                          │
+│                                                                              │
+└──────────────────────────────────────────────────────────────────────────────┘
+
+┌──────────────────────────────────────────────────────────────────────────────┐
+│ 🔒 SECURITY & PRIVACY                                                        │
+├──────────────────────────────────────────────────────────────────────────────┤
+│                                                                              │
+│ ✅ API key is masked: sk-or-v1-c19b12...c1b6                                 │
+│ ✅ No command content logged (privacy)                                       │
+│ ✅ Logs stored locally only (~/.ai_shell.log)                                │
+│ ✅ Can be deleted anytime: rm ~/.ai_shell.log                                │
+│ ✅ No sensitive data sent to logs                                            │
+│                                                                              │
+└──────────────────────────────────────────────────────────────────────────────┘
+
+┌──────────────────────────────────────────────────────────────────────────────┐
+│ 🎯 TROUBLESHOOTING                                                           │
+├──────────────────────────────────────────────────────────────────────────────┤
+│                                                                              │
+│ Problem: ❌ AI API connection failed: HTTP 401                               │
+│ Solution: Check your API key in ai_shell_integration.py                     │
+│                                                                              │
+│ Problem: ❌ AI API connection timeout                                        │
+│ Solution: Check internet connection and firewall settings                   │
+│                                                                              │
+│ Problem: ❌ Network connection error                                         │
+│ Solution: Verify internet access and API endpoint reachability              │
+│                                                                              │
+│ Problem: Suggestions not working                                            │
+│ Solution: Type 'status' to check connection, view logs for details          │
+│                                                                              │
+└──────────────────────────────────────────────────────────────────────────────┘
+
+┌──────────────────────────────────────────────────────────────────────────────┐
+│ 📁 FILES CREATED/MODIFIED                                                    │
+├──────────────────────────────────────────────────────────────────────────────┤
+│                                                                              │
+│ ✏️  MODIFIED:                                                                │
+│   • ai_shell_integration.py      Main shell with logging features           │
+│                                                                              │
+│ 📄 CREATED:                                                                  │
+│   • LOGGING_GUIDE.md              Complete logging documentation            │
+│   • CONNECTION_FEATURES.md        Feature summary and examples              │
+│   • LOGGING_FEATURES.txt          This visual guide                         │
+│   • test_connection.py            Connection test script                    │
+│                                                                              │
+│ 🗂️  RUNTIME FILES:                                                           │
+│   • ~/.ai_shell.log               Log file (auto-created)                   │
+│   • ~/.ai_shell_history           Command history (existing)                │
+│                                                                              │
+└──────────────────────────────────────────────────────────────────────────────┘
+
+┌──────────────────────────────────────────────────────────────────────────────┐
+│ 🚀 QUICK START                                                               │
+├──────────────────────────────────────────────────────────────────────────────┤
+│                                                                              │
+│ 1. Test connection:                                                          │
+│    $ python3 test_connection.py                                              │
+│                                                                              │
+│ 2. Start Cliffy:                                                             │
+│    $ python3 ai_shell_integration.py                                         │
+│                                                                              │
+│ 3. Check status anytime:                                                     │
+│    ~/Desktop/cliffy $ status                                                 │
+│                                                                              │
+│ 4. Use AI features as normal:                                               │
+│    ~/Desktop/cliffy $ %                                                      │
+│    ~/Desktop/cliffy $ %%                                                     │
+│    ~/Desktop/cliffy $ %%%                                                    │
+│                                                                              │
+│ 5. View logs when needed:                                                   │
+│    $ cat ~/.ai_shell.log                                                     │
+│                                                                              │
+└──────────────────────────────────────────────────────────────────────────────┘
+
+╔══════════════════════════════════════════════════════════════════════════════╗
+║                        ✅ ALL FEATURES TESTED & WORKING                      ║
+╚══════════════════════════════════════════════════════════════════════════════╝

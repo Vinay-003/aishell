@@ -1,0 +1,24 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "cliffy-ai"
+version = "0.1.0"
+description = "AI-assisted interactive shell CLI"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = ["prompt-toolkit>=3.0,<4", "requests>=2.28,<3", "python-dotenv>=1.0,<2"]
+classifiers = ["Programming Language :: Python :: 3", "Programming Language :: Python :: 3 :: Only"]
+
+[project.scripts]
+cliffy = "cliffy_cli:main"
+
+[project.optional-dependencies]
+dev = ["pytest>=8,<10", "pytest-cov>=5,<8", "build>=1,<2", "twine>=5,<8"]
+
+[tool.setuptools]
+py-modules = ["cliffy_cli", "ai_shell_integration", "cliffy_providers", "cliffy_suggestions", "security_config", "pattern_reference"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
